@@ -4,7 +4,7 @@ Axes is a layout engine written in Rust.
 
 The goal of the project is simple, to provide a fast and predictable layout engine.
 
-> ![WARNING]
+> [!WARNING]
 > Axes is still a work in progress. The API may change.
 
 ## What is Axes?
