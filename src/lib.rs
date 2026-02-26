@@ -1,11 +1,15 @@
-mod builder;
-pub use builder::*;
-mod node;
-pub use node::*;
+mod engine;
+pub use engine::*;
+mod computed;
+pub use computed::*;
 mod styles;
 pub use styles::*;
 mod style;
 pub use style::*;
+mod tree;
+pub use tree::*;
+
+pub type NodeId = usize;
 
 #[cfg(test)]
 mod tests {
@@ -13,52 +17,61 @@ mod tests {
 
     #[test]
     fn it_works() {
-        let mut builder = LayoutBuilder::new((900.0, 900.0));
-        builder.child(Style {
+        let mut tree = LayoutTree::new();
+
+        let root = tree.create_node(Style {
             size: Size::default(),
             gap: Size {
-                width: Some(30.0),
-                height: None,
-                percent_width: None,
-                percent_height: None,
+                width: Length::Fixed(30.0),
+                height: Length::Fixed(0.0),
             },
-            direction: Direction::Horizontal,
+            direction: Direction::Row,
         });
-        builder.child(Style {
+
+        let child1 = tree.create_node(Style {
             size: Size {
-                width: Some(300.0),
-                height: Some(300.0),
-                percent_width: None,
-                percent_height: None,
+                width: Length::Fixed(300.0),
+                height: Length::Fixed(300.0),
             },
             gap: Size::default(),
             direction: Direction::default(),
         });
-        builder.child(Style {
+
+        let child2 = tree.create_node(Style {
             size: Size {
-                width: Some(300.0),
-                height: Some(300.0),
-                percent_width: None,
-                percent_height: None,
+                width: Length::Fixed(300.0),
+                height: Length::Fixed(300.0),
             },
             gap: Size::default(),
             direction: Direction::default(),
         });
-        let resolved_layout = builder.finish();
 
-        assert_eq!(resolved_layout[0].parent_height, 900.0);
-        assert_eq!(resolved_layout[0].parent_width, 900.0);
-        assert_eq!(resolved_layout[0].x, 0.0);
-        assert_eq!(resolved_layout[0].y, 0.0);
+        // Set parent to child
+        tree.add_child(root, child1);
+        tree.add_child(root, child2);
 
-        assert_eq!(resolved_layout[1].parent_height, 0.0);
-        assert_eq!(resolved_layout[1].parent_width, 0.0);
-        assert_eq!(resolved_layout[1].x, 0.0);
-        assert_eq!(resolved_layout[1].y, 0.0);
+        let mut engine = LayoutEngine::new();
 
-        assert_eq!(resolved_layout[2].parent_height, 300.0);
-        assert_eq!(resolved_layout[2].parent_width, 300.0);
-        assert_eq!(resolved_layout[2].x, 30.0);
-        assert_eq!(resolved_layout[2].y, 0.0);
+        engine.compute(
+            &tree,
+            root,
+            Size {
+                width: Length::Fixed(900.0),
+                height: Length::Fixed(900.0),
+            },
+        );
+
+        assert_eq!(engine.computed[0].x, 0.0);
+        assert_eq!(engine.computed[0].y, 0.0);
+
+        assert_eq!(engine.computed[1].height, 300.0);
+        assert_eq!(engine.computed[1].width, 300.0);
+        assert_eq!(engine.computed[1].x, 0.0);
+        assert_eq!(engine.computed[1].y, 0.0);
+
+        assert_eq!(engine.computed[2].height, 300.0);
+        assert_eq!(engine.computed[2].width, 300.0);
+        assert_eq!(engine.computed[2].x, 330.0);
+        assert_eq!(engine.computed[2].y, 0.0);
     }
 }
