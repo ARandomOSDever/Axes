@@ -22,16 +22,16 @@ mod tests {
         let root = tree.new_child(Style {
             size: Size::default(),
             gap: Size {
-                width: Length::Fixed(30.0),
-                height: Length::Fixed(0.0),
+                width: Units::Pixels(30.0),
+                height: Units::Pixels(0.0),
             },
             direction: Direction::Row,
         });
 
         let child1 = tree.new_child(Style {
             size: Size {
-                width: Length::Fixed(300.0),
-                height: Length::Fixed(300.0),
+                width: Units::Pixels(300.0),
+                height: Units::Pixels(300.0),
             },
             gap: Size::default(),
             direction: Direction::default(),
@@ -39,8 +39,8 @@ mod tests {
 
         let child2 = tree.new_child(Style {
             size: Size {
-                width: Length::Fixed(300.0),
-                height: Length::Fixed(300.0),
+                width: Units::Pixels(300.0),
+                height: Units::Pixels(300.0),
             },
             gap: Size::default(),
             direction: Direction::default(),
@@ -55,8 +55,8 @@ mod tests {
             &tree,
             root,
             Size {
-                width: Length::Fixed(900.0),
-                height: Length::Fixed(900.0),
+                width: Units::Pixels(900.0),
+                height: Units::Pixels(900.0),
             },
         );
 

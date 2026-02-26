@@ -1,4 +1,4 @@
-use crate::{ComputedLayout, Direction, LayoutTree, Length, NodeId, Size};
+use crate::{ComputedLayout, Direction, LayoutTree, NodeId, Size, Units};
 
 pub struct LayoutEngine {
     pub computed: Vec<ComputedLayout>,
@@ -66,13 +66,13 @@ fn resolve_size(_available: &Size, size: &Size) -> (f32, f32) {
     // TODO: Implement percent measure
 
     let width = match size.width {
-        Length::Fixed(px) => px,
-        Length::Percent(_) => 0.0,
+        Units::Pixels(px) => px,
+        Units::Percentage(_) => 0.0,
     };
 
     let height = match size.height {
-        Length::Fixed(px) => px,
-        Length::Percent(_) => 0.0,
+        Units::Pixels(px) => px,
+        Units::Percentage(_) => 0.0,
     };
 
     (width, height)

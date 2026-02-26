@@ -3,6 +3,13 @@ name = "axes"
 version = "0.1.0"
 edition = "2024"
 
+[workspace]
+members = ["examples/*"]
+resolver = "2"
+
+[workspace.dependencies]
+axes = { version = "0.1.0", path = "." }
+
 [dev-dependencies]
 criterion = "0.8.2"
 rand = "0.10.0"
