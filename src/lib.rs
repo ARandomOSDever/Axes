@@ -19,7 +19,7 @@ mod tests {
     fn it_works() {
         let mut tree = LayoutTree::new();
 
-        let root = tree.create_node(Style {
+        let root = tree.new_child(Style {
             size: Size::default(),
             gap: Size {
                 width: Length::Fixed(30.0),
@@ -28,7 +28,7 @@ mod tests {
             direction: Direction::Row,
         });
 
-        let child1 = tree.create_node(Style {
+        let child1 = tree.new_child(Style {
             size: Size {
                 width: Length::Fixed(300.0),
                 height: Length::Fixed(300.0),
@@ -37,7 +37,7 @@ mod tests {
             direction: Direction::default(),
         });
 
-        let child2 = tree.create_node(Style {
+        let child2 = tree.new_child(Style {
             size: Size {
                 width: Length::Fixed(300.0),
                 height: Length::Fixed(300.0),
@@ -47,8 +47,7 @@ mod tests {
         });
 
         // Set parent to child
-        tree.add_child(root, child1);
-        tree.add_child(root, child2);
+        tree.add_children(root, vec![child1, child2]);
 
         let mut engine = LayoutEngine::new();
 

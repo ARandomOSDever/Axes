@@ -18,7 +18,7 @@ impl LayoutTree {
     }
 
     /// Create a node without a parent
-    pub fn create_node(&mut self, style: Style) -> NodeId {
+    pub fn new_child(&mut self, style: Style) -> NodeId {
         // Get current id
         let id = self.styles.len();
 
@@ -33,8 +33,10 @@ impl LayoutTree {
     }
 
     /// Set the parent to a node
-    pub fn add_child(&mut self, parent: NodeId, child: NodeId) {
-        self.children[parent].push(child);
-        self.parents[child] = Some(parent)
+    pub fn add_children(&mut self, parent: NodeId, children: Vec<NodeId>) {
+        for child in children {
+            self.children[parent].push(child);
+            self.parents[child] = Some(parent)
+        }
     }
 }
