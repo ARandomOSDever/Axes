@@ -4,9 +4,8 @@ version = "0.1.0"
 edition = "2024"
 license = "MIT"
 repository = "https://github.com/dest-hq/axes"
-categories = ["layout"]
 keywords = ["layout", "cross-platform"]
-description = "A fast layout engine"
+description = "Fast layout engine"
 
 [workspace]
 members = ["examples/*"]
